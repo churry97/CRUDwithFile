@@ -1,40 +1,11 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-public class menu {
+public class Crud {
     private List<employee> list;
 
-    public menu(){
-        this.list = new ArrayList<>();
-    }
-
-    public void printOption(){
-        System.out.println("-------출퇴근 시간-------");
-        System.out.println("1: 전체 조회");
-        System.out.println("2: 생성");
-        System.out.println("3: 업데이트");
-        System.out.println("4: 삭제");
-//        System.out.println("5: 이름 검색");
-//        System.out.println("5: 오늘의 일꾼");
-        System.out.println("0: 프로그램 종료");
-        System.out.println("------------------------------");
-
-    }
-    public void selectOption(String input){
-        switch (input) {
-            case "1" -> readList();
-            case "2" -> createList();
-            case "3" -> updateList();
-            case "4" -> deleteList();
-//            case "5" -> showTopEmployee();
-            case "0" -> {
-                System.out.println("프로그램 종료");
-                System.exit(0);
-            }
-            default -> System.out.println("다시 입력하세요");
-        }
-    }
-
-    private boolean valid(int num) {
+    public boolean valid(int num) {
         if (this.list.size() <= num) {
             System.out.println("없는 번호 입니다.");
             return false;
@@ -42,32 +13,43 @@ public class menu {
         return true;
     }
 
-    private void readList(){
+    public void readList(ArrayList<employee>list){
         System.out.println("| 번호  |  이름  |      날짜      |    출근시간    |   퇴근시간   |  시간  |");
-        for (employee p: this.list) {
+        for (employee p: list) {
             System.out.println(p.toString());
         }
     }
 
-    private void createList() {
+    public employee createList(ArrayList<employee>list) {
+        int num;
+        num = list.size();
+        String name;
+        String date;
+        String startTime;
+        String finishTime;
+        int totalHours = 0;
+
         System.out.println("---------새로운 명부 작성---------");
-        employee p = new employee();
+
         Scanner input = new Scanner(System.in);
 
         System.out.println("이름 입력");
-        p.setName(input.next());
-        System.out.println("날짜 입력");
-        p.setDate(input.next());
-        System.out.println("출근 시간 입력");
-        p.setStartTime(input.next());
-        System.out.println("퇴근 시간 입력");
-        p.setFinishTime(input.next());
+        name = input.next();
 
-        p.setNum(this.list.size());
-        this.list.add(p);
+        System.out.println("날짜 입력");
+        date = input.next();
+
+        System.out.println("출근 시간 입력");
+        startTime = input.next();
+
+        System.out.println("퇴근 시간 입력");
+        finishTime = input.next();
+
+        employee p = new employee(num, name, date, startTime, finishTime, totalHours);
+        return p;
     }
 
-    private void updateList(){
+    public void updateList(ArrayList<employee>list){
         System.out.println("---------명부 업데이트---------");
         System.out.println("수정 할 번호 입력");
         Scanner input = new Scanner(System.in);
@@ -84,11 +66,11 @@ public class menu {
             this.list.get(num).setFinishTime(input.next());
         }
         else{
-            updateList();
+            updateList(list);
         }
     }
 
-    private void deleteList(){
+    public void deleteList(ArrayList<employee>list){
         System.out.println("삭제 할 번호 입력");
         Scanner input = new Scanner(System.in);
         int num = Integer.parseInt(input.next());
@@ -99,11 +81,15 @@ public class menu {
             System.out.println("삭제되었습니다.");
         }
         else {
-            deleteList();
+            deleteList(list);
         }
     }
 
-    private void showTopEmployee(){
+//    public void showTopEmployee(){
+//
+//    }
 
-    }
+//    public void searchEmployee(){
+//
+//    }
 }
