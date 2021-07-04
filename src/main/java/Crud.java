@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -50,46 +51,52 @@ public class Crud {
     }
 
     public void updateList(ArrayList<employee>list){
-        System.out.println("---------명부 업데이트---------");
-        System.out.println("수정 할 번호 입력");
-        Scanner input = new Scanner(System.in);
-        int num = Integer.parseInt(input.next());
-
-        if(valid(num)){
-            System.out.println("이름 입력");
-            this.list.get(num).setName(input.next());
-            System.out.println("날짜 입력");
-            this.list.get(num).setDate(input.next());
-            System.out.println("출근 시간 입력");
-            this.list.get(num).setStartTime(input.next());
-            System.out.println("퇴근 시간 입력");
-            this.list.get(num).setFinishTime(input.next());
+        if (list.size() == 0) {
+            System.out.println("리스트에 데이타가 없습니다.");
+            return;
         }
-        else{
-            updateList(list);
+        try {
+            System.out.println("---------명부 업데이트---------");
+            System.out.println("수정 할 번호 입력");
+            Scanner input = new Scanner(System.in);
+            int num = Integer.parseInt(input.next());
+
+            if (valid(num)) {
+                System.out.println("이름 입력");
+                this.list.get(num).setName(input.next());
+                System.out.println("날짜 입력");
+                this.list.get(num).setDate(input.next());
+                System.out.println("출근 시간 입력");
+                this.list.get(num).setStartTime(input.next());
+                System.out.println("퇴근 시간 입력");
+                this.list.get(num).setFinishTime(input.next());
+            } else {
+                updateList(list);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
     public void deleteList(ArrayList<employee>list){
-        System.out.println("삭제 할 번호 입력");
-        Scanner input = new Scanner(System.in);
-        int num = Integer.parseInt(input.next());
-        if(valid(num)) {
-            this.list.remove(num);
-            for(int i=0; i < list.size(); i++)
-                this.list.get(i).setNum(i);
-            System.out.println("삭제되었습니다.");
+        if( list.size() == 0 ){
+            System.out.println("데이터가 존재하지 않습니다.");
+            return;
         }
-        else {
-            deleteList(list);
+        try {
+            System.out.println("삭제 할 번호 입력");
+            Scanner input = new Scanner(System.in);
+            int num = Integer.parseInt(input.next());
+            if (valid(num)) {
+                this.list.remove(num);
+                for (int i = 0; i < list.size(); i++)
+                    this.list.get(i).setNum(i);
+                System.out.println("삭제되었습니다.");
+            } else {
+                deleteList(list);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
-
-//    public void showTopEmployee(){
-//
-//    }
-
-//    public void searchEmployee(){
-//
-//    }
 }
